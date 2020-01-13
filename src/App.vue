@@ -17,7 +17,18 @@
         </div>
        <div class="calculator__right">
          <div class="calc__wrapper">
-           <span class="calc__result">{{ result }}</span>
+           <div class="calc-card">
+             <h3 class="calc-card__title">
+               Общая стоимость
+             </h3>
+             <div class="calc-card__total">
+               $ <span>{{ result }}</span>
+             </div>
+             <ul class="calc-card__list">
+               <li class="calc-card__item"> <div class="card__item-title">Backend</div> $ {{ totalBackend }}</li>
+               <li class="calc-card__item"> <div class="card__item-title">Frontend</div> $ {{ totalFrontend }}</li>
+             </ul>
+           </div>
          </div>
        </div>
       </div>
@@ -38,44 +49,53 @@
             active: false,
             price: 700,
             backendPrice: 400,
-            Frontend: 300,
+            frontendPrice: 300,
           },
           {
             name: 'Social',
             active: false,
             price: 300,
             backendPrice: 100,
-            Frontend: 200,
+            frontendPrice: 200,
           },
           {
             name: 'Search',
             active: false,
             price: 650,
             backendPrice: 400,
-            Frontend: 200,
+            frontendPrice: 200,
           },
           {
             name: 'Maps',
             active: false,
             price: 200,
             backendPrice: 100,
-            Frontend: 100,
+            frontendPrice: 100,
           },
           {
             name: 'Dashboard',
             active: false,
-            price: 500
+            price: 500,
+            backendPrice: 250,
+            frontendPrice: 250,
           }
         ],
         result: 0,
+        totalBackend: 0,
+        totalFrontend: 0,
+
       }
     },
     methods: {
       calc: function (obj) {
         obj.active = !obj.active;
         this.result = 0;
+        this.totalFrontend = 0;
+        this.totalBackend = 0;
         const filteredArr = this.items.filter(el => el.active);
         filteredArr.forEach((item) => this.result += item.price);
+        filteredArr.forEach((item) => this.totalFrontend += item.frontendPrice);
+        filteredArr.forEach((item) => this.totalBackend += item.backendPrice);
       },
     }
   }
@@ -85,6 +105,9 @@
   *{
     margin: 0;
     padding: 0;
+  }
+  h1 {
+    margin: 0;
   }
 
   .calculator {
@@ -96,20 +119,21 @@
       padding: 0 20px;
     }
     &__left {
-
-      width: 49%;
+      width: 60%
     }
     &__right {
-      width: 49%;
+
     }
     &__title {
       font-family: Arial, sans-serif;
       font-weight: 900;
       font-size: 70px;
       color: #040918;
+      line-height: 70px;
       margin-bottom: 20px;
     }
     &__description {
+      max-width: 500px;
       font-weight: 400;
       font-size: 16px;
       color: #111b39;
@@ -157,5 +181,38 @@
       transform: rotate(45deg);
     }
 
+  }
+  .calc-card {
+    width: 300px;
+    padding: 0 32px 40px;
+    background: #2b55db;
+    color: #fff;
+    border-radius: 4px;
+    &__title {
+      padding-top: 40px;
+      font-weight: 900;
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      line-height: 26px;
+
+    }
+    &__total {
+      font-weight: 900;
+      font-family: Arial, sans-serif;
+      font-size: 40px;
+      line-height: 26px;
+      margin: 20px 0;
+    }
+    &__list {
+      list-style: none;
+    }
+    &__item {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 16px;
+    }
   }
 </style>
